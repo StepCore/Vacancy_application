@@ -76,4 +76,5 @@ def get_top_n_vacancies(file_saver, top_n):
 
 vacancies = HH().load_vacancies('Тюмень')
 
+
 # print(*vacancies, sep='\n')
