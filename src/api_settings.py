@@ -13,24 +13,26 @@ class Parser(ABC):
 
 
 class HH(Parser):
-    """Класс для работы с API HeadHunter
-        Класс Parser является родительским классом, который вам необходимо реализовать"""
+    """Класс для работы с API HeadHunter"""
 
     def __init__(self):
         self.__url = 'https://api.hh.ru/vacancies'
         self.__headers = {'User-Agent': 'HH-User-Agent'}
-        self.__params = {'text': '', 'page': 0, 'per_page': 100}
+        self.__params = {'page': 0, 'per_page': 100}
         self.vacancies = []
         super().__init__()
 
-    def load_vacancies(self, keyword):
-        self.__params['text'] = keyword
-        while self.__params.get('page') != 20:
+    def load_vacancies(self, keywords):
+        """Основная функция для фильтрации вакансий"""
+        self.__params['page'] = 0
+        while self.__params.get('page') < 20:
             response = requests.get(self.__url, headers=self.__headers, params=self.__params)
             vacancies = response.json()['items']
-            self.vacancies.extend(vacancies)
+            for vacancy in vacancies:
+                if any(keyword.lower() in str(vacancy).lower() for keyword in keywords.split(' ')):
+                    self.vacancies.append(vacancy)
             self.__params['page'] += 1
-        return vacancies
+        return self.vacancies
 
 
 class FileSaverToJSON:
@@ -77,4 +79,4 @@ def get_top_n_vacancies(file_saver, top_n):
 vacancies = HH().load_vacancies('Тюмень')
 
 
-# print(*vacancies, sep='\n')
+print(*vacancies, sep='\n')

@@ -28,9 +28,9 @@ def main():
             break
 
         elif user_choice == '3':
-            keywords = input("Введите ключевые слова для фильтрации вакансий: ").split()
+            keywords = input("Введите ключевые слова для фильтрации вакансий: ")
             vacancies = HH().load_vacancies(keywords)
-            print(*vacancies)
+            print(*vacancies, sep='\n')
             break
 
         elif user_choice == '4':
@@ -41,4 +41,4 @@ def main():
             print('Пожалуйста, введите число от 1 до 4')
 
 
-main()
+# main()
