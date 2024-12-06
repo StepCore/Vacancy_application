@@ -44,18 +44,18 @@ class HH(Parser):
 class FileSaverToJSON:
     """Класс для сохранения данных в формате JSON."""
 
-    def __init__(self, file_path):
-        self.file_path = file_path
+    def __init__(self, file_path='default.json'):
+        self.__file_path = file_path
 
     def save(self, data):
         """Метод для сохранения данных в файл."""
-        with open(self.file_path, "w", encoding="utf-8") as json_file:
+        with open(self.__file_path, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
 
     def load(self):
         """Вспомогательная функция для топа вакансий"""
         try:
-            with open(self.file_path, "r", encoding="utf-8") as f:
+            with open(self.__file_path, "r", encoding="utf-8") as f:
                 return json.load(f)
         except FileNotFoundError:
             print("Файл не найден. Убедитесь, что вы сначала сохранили вакансии.")
@@ -82,7 +82,6 @@ def get_top_n_vacancies(file_saver, top_n):
     return top_vacancies
 
 
-vacancies = HH().load_vacancies("Тюмень")
-
+# vacancies = HH().load_vacancies("your_text")
 
 # print(*vacancies, sep='\n')
